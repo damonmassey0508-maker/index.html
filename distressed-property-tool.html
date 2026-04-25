@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distressed Property Research — Cuyahoga County</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #0f1f3d;
+    --navy2:   #1a2f52;
+    --blue:    #2563a8;
+    --blue2:   #3b82c4;
+    --gold:    #c9943a;
+    --gold2:   #e8b55a;
+    --cream:   #f5f0e8;
+    --cream2:  #ede7d9;
+    --red:     #c0392b;
+    --red-bg:  #fdf2f2;
+    --org:     #a04000;
+    --org-bg:  #fef3e8;
+    --grn:     #1e6b3a;
+    --grn-bg:  #eaf6ee;
+    --blu:     #1a5276;
+    --blu-bg:  #ebf5fb;
+    --pur:     #6c3483;
+    --pur-bg:  #f5eef8;
+    --text:    #0f1f3d;
+    --muted:   #5d6d7e;
+    --border:  #d5cfc4;
+    --shadow:  rgba(15,31,61,0.12);
+    --ff-display: 'DM Serif Display', Georgia, serif;
+    --ff-body:    'Instrument Sans', sans-serif;
+    --ff-mono:    'DM Mono', monospace;
+  }
+
+  body {
+    font-family: var(--ff-body);
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--gold);
+    box-shadow: 0 4px 24px var(--shadow);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .logo-mark {
+    font-family: var(--ff-display);
+    font-size: 22px;
+    color: var(--gold2);
+    letter-spacing: -0.5px;
+  }
+  .logo-sub {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    color: #6b8ab0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    height: 64px;
+  }
+  .nav-tab {
+    padding: 0 20px;
+    font-family: var(--ff-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b8ab0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    height: 100%;
+    transition: color 0.2s, border-color 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .nav-tab:hover { color: var(--cream); }
+  .nav-tab.active { color: var(--gold2); border-bottom-color: var(--gold); }
+
+  /* ── HERO ───────────────────────────────────────────── */
+  .hero {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy2) 60%, #1e3a5f 100%);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(201,148,58,0.3);
+  }
+  .hero-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold2);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--cream);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 em { color: var(--gold2); font-style: italic; }
+  .hero-desc {
+    font-size: 15px;
+    color: #8aaac8;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+  .city-pills {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .city-pill {
+    padding: 6px 16px;
+    border: 1px solid rgba(201,148,58,0.4);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--gold2);
+    font-family: var(--ff-mono);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── MAIN LAYOUT ─────────────────────────────────────── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── SECTION LABEL ───────────────────────────────────── */
+  .section-label {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── FILTER CHIPS ─────────────────────────────────────── */
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2rem;
+  }
+  .chip {
+    padding: 7px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    background: white;
+    color: var(--muted);
+    transition: all 0.18s;
+    font-family: var(--ff-body);
+  }
+  .chip:hover { border-color: var(--blue2); color: var(--text); }
+  .chip.active { background: var(--navy); color: var(--gold2); border-color: var(--navy); }
+
+  /* ── SOURCE CARDS ─────────────────────────────────────── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .card[data-source="auditor"]::before  { background: var(--blue); }
+  .card[data-source="neocris"]::before  { background: var(--red); }
+  .card[data-source="landbank"]::before { background: var(--grn); }
+  .card[data-source="pos"]::before      { background: var(--pur); }
+  .card[data-source="building"]::before { background: var(--gold); }
+  .card[data-source="hud"]::before      { background: var(--muted); }
+  .card[data-source="paid"]::before     { background: var(--org); }
+  .card:hover { box-shadow: 0 8px 32px var(--shadow); transform: translateY(-2px); }
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 12px;
+  }
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    font-family: var(--ff-mono);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .badge-free { background: var(--grn-bg); color: var(--grn); }
+  .badge-paid { background: var(--org-bg); color: var(--org); }
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .vtag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-family: var(--ff-mono);
+  }
+  .vtag-v { background: var(--red-bg);  color: var(--red); }
+  .vtag-a { background: var(--org-bg);  color: var(--org); }
+  .vtag-p { background: var(--blu-bg);  color: var(--blu); }
+  .vtag-b { background: #f4f6f7;        color: var(--muted); border: 1px solid var(--border); }
+  .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s;
+    cursor: pointer;
+    border: 1.5px solid;
+    font-family: var(--ff-body);
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: var(--gold2);
+    border-color: var(--navy);
+  }
+  .btn-primary:hover { background: var(--navy2); }
+  .btn-secondary {
+    background: white;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover { background: var(--cream2); border-color: var(--blue); }
+
+  /* ── WORKFLOW ─────────────────────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 12px; }
+  .step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 0;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .step-num {
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff-display);
+    font-size: 22px;
+    color: var(--gold2);
+  }
+  .step-body { padding: 1rem 1.25rem; }
+  .step-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .step-tools {
+    margin-top: 8px;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    color: var(--blue);
+    background: var(--blu-bg);
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* ── PROMPTS ─────────────────────────────────────────── */
+  .prompts-grid { display: flex; flex-direction: column; gap: 10px; }
+  .prompt-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .prompt-card:hover {
+    border-color: var(--blue);
+    box-shadow: 0 4px 16px var(--shadow);
+    transform: translateX(4px);
+  }
+  .prompt-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; }
+  .prompt-arrow {
+    font-size: 18px;
+    color: var(--gold);
+    flex-shrink: 0;
+    transition: transform 0.18s;
+  }
+  .prompt-card:hover .prompt-arrow { transform: translateX(4px); }
+
+  /* ── CONTACTS ────────────────────────────────────────── */
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .contact-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .contact-header {
+    background: var(--navy);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(201,148,58,0.2);
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .contact-city { font-size: 14px; font-weight: 600; color: var(--cream); }
+  .contact-dept { font-size: 11px; color: #6b8ab0; font-family: var(--ff-mono); }
+  .contact-body { padding: 14px 18px; }
+  .contact-phone {
+    font-family: var(--ff-mono);
+    font-size: 13px;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+  .contact-ask { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+  .contact-tag {
+    font-size: 10px;
+    font-family: var(--ff-mono);
+    padding: 2px 8px;
+    border-radius: 8px;
+    background: var(--cream2);
+    color: var(--muted);
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  /* ── FOOTER ─────────────────────────────────────────── */
+  footer {
+    background: var(--navy);
+    color: #4a6580;
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    font-family: var(--ff-mono);
+    margin-top: 4rem;
+    border-top: 1px solid rgba(201,148,58,0.2);
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ── RESPONSIVE ──────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .nav-tabs { overflow-x: auto; }
+    .nav-tab { padding: 0 14px; font-size: 12px; }
+    .hero h1 { font-size: 1.75rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .contacts-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-mark">PropResearch</span>
+      <span class="logo-sub">Cuyahoga County</span>
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('sources', this)">Data Sources</button>
+      <button class="nav-tab" onclick="showTab('workflow', this)">AI Workflow</button>
+      <button class="nav-tab" onclick="showTab('prompts', this)">Prompts</button>
+      <button class="nav-tab" onclick="showTab('contacts', this)">Contacts</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="hero-eyebrow">Real Estate Research Intelligence</p>
+  <h1>Distressed Property Research<br><em>Cuyahoga County</em></h1>
+  <p class="hero-desc">Data sources, AI workflows, and search strategies for code violations, vacants, point-of-sale, and boarded properties.</p>
+  <div class="city-pills">
+    <span class="city-pill">Warrensville Heights</span>
+    <span class="city-pill">Bedford</span>
+    <span class="city-pill">Shaker Heights</span>
+    <span class="city-pill">Garfield Heights</span>
+  </div>
+</section>
+
+<main class="main">
+
+  <!-- ── DATA SOURCES ───────────────────────────────── -->
+  <div id="panel-sources" class="panel active">
+    <p class="section-label">Filter by property type</p>
+    <div class="filter-row">
+      <button class="chip active" onclick="filterCards('all', this)">All types</button>
+      <button class="chip" onclick="filterCards('violation', this)">Code violations</button>
+      <button class="chip" onclick="filterCards('vacant', this)">Vacant / tagged</button>
+      <button class="chip" onclick="filterCards('pos', this)">Point of sale</button>
+      <button class="chip" onclick="filterCards('boarded', this)">Boarded up</button>
+    </div>
+    <div class="cards-grid" id="cards-container">
+
+      <div class="card" data-source="auditor" data-types="violation vacant pos">
+        <div class="card-header">
+          <div class="card-name">Cuyahoga County Auditor — Property Search</div>
+          <span class="badge badge-free">Free</span>
+        </div>
+        <p class="card-desc">The foundational starting point. Search by owner, parcel ID, address, or delinquent tax status. Look for properties flagged as "Vacant Land" or with repeated ownership transfers.</p>
+        <div class="card-tags">
+          <span class="vtag vtag-v">Code violations</span>
+          <span class="vtag vtag-a">Vacant</span>
+          <span class="vtag vtag-p">Point of sale</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://auditor.cuyahogacounty.gov/en-US/PropertySearch.aspx" target="_blank">Open Auditor Search ↗</a>
+          <a class="btn btn-secondary" href="https://fiscalofficer.cuyahogacounty.gov/en-US/TaxLienSearch.aspx" target="_blank">Tax Lien Search ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-source="neocris" data-types="violation vacant boarded">
+        <div class="card-header">
+          <div class="card-name">NEO CRIS — NE Ohio Code Enforcement System</div>
+          <span class="badge badge-free">Free</span>
+        </div>
+        <p class="card-desc">Tracks rental registrations, code violations, and nuisance properties for NE Ohio municipalities. Warrensville Heights, Bedford, and Garfield Heights often report through this system.</p>
+        <div class="card-tags">
+          <span class="vtag vtag-v">Code violations</span>
+          <span class="vtag vtag-b">Boarded up</span>
+          <span class="vtag vtag-a">Vacant</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://www.neocris.com" target="_blank">Search NEO CRIS ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-source="landbank" data-types="violation vacant boarded pos">
+        <div class="card-header">
+          <div class="card-name">Cuyahoga Land Bank (CLRC) Property Inventory</div>
+          <span class="badge badge-free">Free</span>
+        </div>
+        <p class="card-desc">The Cuyahoga Land Reutilization Corp holds, manages, and sells distressed properties. Their public inventory shows vacant, condemned, and deed-in-lieu properties — many boarded.</p>
+        <div class="card-tags">
+          <span class="vtag vtag-a">Vacant</span>
+          <span class="vtag vtag-b">Boarded up</span>
+          <span class="vtag vtag-v">Code violations</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://www.cuyahogalandbank.org/propertySearch.php" target="_blank">CLRC Property Search ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-source="pos" data-types="pos violation">
+        <div class="card-header">
+          <div class="card-name">Shaker Heights Point of Sale Program</div>
+          <span class="badge badge-free">Free</span>
+        </div>
+        <p class="card-desc">Shaker Heights requires a point-of-sale inspection before any home transfer. Failed POS inspections are a direct pipeline to motivated sellers who can't close without making repairs.</p>
+        <div class="card-tags">
+          <span class="vtag vtag-p">Point of sale</span>
+          <span class="vtag vtag-v">Code violations</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://www.shakeronline.com/building-engineering/point-of-sale-inspection" target="_blank">Shaker POS Program ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-source="building" data-types="violation vacant boarded pos">
+        <div class="card-header">
+          <div class="card-name">Garfield Heights Building Dept — Code Enforcement</div>
+          <span class="badge badge-free">Free (FOIA)</span>
+        </div>
+        <p class="card-desc">Submit a public records request for the open violation list, boarded property registry, and POS results. Garfield Heights runs an active code enforcement program.</p>
+        <div class="card-tags">
+          <span class="vtag vtag-v">Code violations</span>
+          <span class="vtag vtag-b">Boarded up</span>
+          <span class="vtag vtag-p">Point of sale</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://www.garfieldhts.org/departments/building-department/" target="_blank">Garfield Heights Building ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-source="hud" data-types="vacant boarded">
+        <div class="card-header">
+          <div class="card-name">HUD Vacant &amp; Abandoned Properties — Ohio</div>
+          <span class="badge badge-free">Free</span>
+        </div>
+        <p class="card-desc">HUD maintains federally-sourced data on vacant and abandoned properties, including REO inventory. Cross-reference with Cuyahoga parcels to find properties where lenders have walked away.</p>
+        <div class="card-tags">
+          <span class="vtag vtag-a">Vacant</span>
+          <span class="vtag vtag-b">Boarded up</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://www.huduser.gov/portal/datasets/vacancy.html" target="_blank">HUD Vacancy Data ↗</a>
+        </div>
+      </div>
+
+      <div class="card" data-source="paid" data-types="violation vacant pos boarded">
+        <div class="card-header">
+          <div class="card-name">PropStream / BatchLeads / DealMachine</div>
+          <span class="badge badge-paid">Paid ~$99–149/mo</span>
+        </div>
+        <p class="card-desc">Commercial platforms that aggregate MLS, public records, and code violation data. Filter by "code violations," "vacant," "pre-foreclosure," and "absentee owner" for all four cities at once.</p>
+        <div class="card-tags">
+          <span class="vtag vtag-v">Code violations</span>
+          <span class="vtag vtag-a">Vacant</span>
+          <span class="vtag vtag-p">Point of sale</span>
+          <span class="vtag vtag-b">Boarded up</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://propstream.com" target="_blank">PropStream ↗</a>
+          <a class="btn btn-secondary" href="https://batchleads.io" target="_blank">BatchLeads ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── AI WORKFLOW ─────────────────────────────────── -->
+  <div id="panel-workflow" class="panel">
+    <p class="section-label">5-step AI-powered research process</p>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Seed Data Pull — Export from Cuyahoga Auditor</div>
+          <div class="step-desc">Download the full parcel roll for all four cities. Filter for: delinquent taxes 2+ years, vacant classification, last transfer 5+ years ago, or absentee ownership (owner address ≠ property address).</div>
+          <span class="step-tools">Tool: Cuyahoga Auditor → auditor.cuyahogacounty.gov</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Cross-Reference Code Violations</div>
+          <div class="step-desc">Take your parcel list and submit FOIA/public records requests to each city's building department for open violation logs. Cross-reference with the NEO CRIS database. Properties on 2+ lists are highest priority.</div>
+          <span class="step-tools">Tool: NEO CRIS + city FOIA requests</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">AI Enrichment — Score with Claude</div>
+          <div class="step-desc">Upload your combined CSV to Claude. Score each property by distress indicators (violations + delinquent taxes + vacancy + absentee owner), flag the highest-probability acquisition targets, and draft outreach letters.</div>
+          <span class="step-tools">Tool: Claude AI → claude.ai</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Skip Trace &amp; Owner Outreach</div>
+          <div class="step-desc">For absentee owners and LLC-held properties, run skip traces to find contact info. Use Claude to draft personalized letters addressing the owner's likely pain point — tax burden, code violation costs, estate issues.</div>
+          <span class="step-tools">Tool: BatchLeads / TLO + Claude AI</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Drive-By Validation</div>
+          <div class="step-desc">Confirm boarded or vacant status in person. Photograph and note: boarding type, utility status, lawn condition, mail accumulation, and whether a vacant building placard is posted. Upload photos to Claude for condition assessment.</div>
+          <span class="step-tools">Tool: DealMachine + field visit + Claude AI</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── PROMPTS ──────────────────────────────────────── -->
+  <div id="panel-prompts" class="panel">
+    <p class="section-label">Copy these prompts into Claude to accelerate your research</p>
+    <div class="prompts-grid">
+
+      <div class="prompt-card" onclick="copyPrompt(this, 'I have a CSV of Cuyahoga County parcels in Warrensville Heights, Bedford, Shaker Heights, and Garfield Heights. Help me build a distress score for each property based on: years of delinquent taxes, number of open code violations, absentee ownership, and vacancy classification. Show me the top 20 highest-scoring properties.')">
+        <div class="prompt-text">Score and rank my parcel list by distress indicators across all four cities</div>
+        <div class="prompt-arrow">→</div>
+      </div>
+
+      <div class="prompt-card" onclick="copyPrompt(this, 'Draft an outreach letter to a delinquent property owner in Garfield Heights who has 3 open code violations and owes 4 years of back taxes. The tone should be empathetic and solution-focused, offering a cash purchase as a way to resolve their situation quickly.')">
+        <div class="prompt-text">Draft an outreach letter to a distressed property owner in Garfield Heights</div>
+        <div class="prompt-arrow">→</div>
+      </div>
+
+      <div class="prompt-card" onclick="copyPrompt(this, 'What is the point-of-sale inspection process in Shaker Heights, and how can a real estate investor use POS inspection results to identify properties with deferred maintenance or motivated sellers? What records are publicly available?')">
+        <div class="prompt-text">Explain the Shaker Heights point-of-sale process and how investors can use it</div>
+        <div class="prompt-arrow">→</div>
+      </div>
+
+      <div class="prompt-card" onclick="copyPrompt(this, 'Write a public records request (FOIA) letter addressed to the Warrensville Heights Building Department requesting: the current list of properties with open code violations, a list of properties with vacant building tags or placards, and any properties on the demolition watch list or condemned structures list.')">
+        <div class="prompt-text">Generate a FOIA request for Warrensville Heights building records</div>
+        <div class="prompt-arrow">→</div>
+      </div>
+
+      <div class="prompt-card" onclick="copyPrompt(this, 'Explain how to use the Cuyahoga County Land Bank to identify and potentially acquire boarded or condemned properties in Bedford and Garfield Heights. What is the acquisition process, timeline, and typical costs?')">
+        <div class="prompt-text">How to work with the Cuyahoga Land Bank for acquisitions in Bedford and Garfield Heights</div>
+        <div class="prompt-arrow">→</div>
+      </div>
+
+      <div class="prompt-card" onclick="copyPrompt(this, 'I found a property in Bedford that has a vacant building tag, 2 years of delinquent taxes, and an absentee LLC owner. Walk me through a full due diligence checklist before making an offer, including title issues, lien searches, environmental concerns, and rehab cost estimation steps.')">
+        <div class="prompt-text">Full due diligence checklist for a distressed Bedford property with LLC owner</div>
+        <div class="prompt-arrow">→</div>
+      </div>
+
+      <div class="prompt-card" onclick="copyPrompt(this, 'Help me build a driving route through Garfield Heights and Warrensville Heights to field-verify boarded-up properties. What should I look for, photograph, and note to assess each property\'s condition and investment potential?')">
+        <div class="prompt-text">Build a field research checklist for drive-by property assessment</div>
+        <div class="prompt-arrow">→</div>
+      </div>
+
+    </div>
+    <p style="margin-top:1.5rem;font-size:12px;color:var(--muted);font-family:var(--ff-mono);">↑ Click any prompt to copy it to your clipboard, then paste into Claude at claude.ai</p>
+  </div>
+
+  <!-- ── CONTACTS ─────────────────────────────────────── -->
+  <div id="panel-contacts" class="panel">
+    <p class="section-label">Municipal building departments</p>
+    <div class="contacts-grid">
+
+      <div class="contact-card">
+        <div class="contact-header">
+          <div class="contact-icon">🏛</div>
+          <div>
+            <div class="contact-city">Warrensville Heights</div>
+            <div class="contact-dept">Building &amp; Housing Dept</div>
+          </div>
+        </div>
+        <div class="contact-body">
+          <div class="contact-phone">(216) 587-6500</div>
+          <div class="contact-tag">FOIA: Open records request</div>
+          <div class="contact-ask">Request: open violations list, vacant building tags, boarded property log, condemned structures, nuisance property list.</div>
+          <a class="btn btn-primary" href="https://www.warrensville-heights.org" target="_blank" style="font-size:12px;">City Website ↗</a>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-header">
+          <div class="contact-icon">🏛</div>
+          <div>
+            <div class="contact-city">Bedford</div>
+            <div class="contact-dept">Building Department</div>
+          </div>
+        </div>
+        <div class="contact-body">
+          <div class="contact-phone">(440) 232-1600</div>
+          <div class="contact-tag">FOIA: Open records request</div>
+          <div class="contact-ask">Request: violation log, vacant registry, Land Bank-eligible properties, demolition watch list, condemned structures.</div>
+          <a class="btn btn-primary" href="https://www.bedfordohio.com/city-departments/building" target="_blank" style="font-size:12px;">City Website ↗</a>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-header">
+          <div class="contact-icon">🏛</div>
+          <div>
+            <div class="contact-city">Shaker Heights</div>
+            <div class="contact-dept">Building &amp; Engineering</div>
+          </div>
+        </div>
+        <div class="contact-body">
+          <div class="contact-phone">(216) 491-1490</div>
+          <div class="contact-tag">POS Program + FOIA</div>
+          <div class="contact-ask">Request: failed POS inspections 2022–present, repeat violator list, problem property notices. POS program is a top lead source.</div>
+          <a class="btn btn-primary" href="https://www.shakeronline.com/building-engineering" target="_blank" style="font-size:12px;">Building &amp; Engineering ↗</a>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-header">
+          <div class="contact-icon">🏛</div>
+          <div>
+            <div class="contact-city">Garfield Heights</div>
+            <div class="contact-dept">Building Department</div>
+          </div>
+        </div>
+        <div class="contact-body">
+          <div class="contact-phone">(216) 475-1100</div>
+          <div class="contact-tag">FOIA: Open records request</div>
+          <div class="contact-ask">Request: condemnation notices, boarded-up log, open violations, CLRC referrals. Active blight corridor along Turney and Granger.</div>
+          <a class="btn btn-primary" href="https://www.garfieldhts.org" target="_blank" style="font-size:12px;">City Website ↗</a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-label" style="margin-top:2.5rem;">County &amp; regional resources</p>
+    <div class="contacts-grid">
+
+      <div class="contact-card">
+        <div class="contact-header">
+          <div class="contact-icon">🏦</div>
+          <div>
+            <div class="contact-city">Cuyahoga Land Bank (CLRC)</div>
+            <div class="contact-dept">Land Reutilization Corp</div>
+          </div>
+        </div>
+        <div class="contact-body">
+          <div class="contact-ask">Primary vehicle for acquiring and disposing of vacant/distressed properties. Get on their buyer notification list for all four target cities. Properties often sell below market.</div>
+          <a class="btn btn-primary" href="https://www.cuyahogalandbank.org" target="_blank" style="font-size:12px;">CLRC Website ↗</a>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-header">
+          <div class="contact-icon">🌿</div>
+          <div>
+            <div class="contact-city">Western Reserve Land Conservancy</div>
+            <div class="contact-dept">Blight Elimination Partner</div>
+          </div>
+        </div>
+        <div class="contact-body">
+          <div class="contact-ask">Partners with municipalities on blight elimination across NE Ohio. Good resource for understanding each city's demolition vs. rehab plans — tells you which properties have a future.</div>
+          <a class="btn btn-primary" href="https://www.wrlandconservancy.org" target="_blank" style="font-size:12px;">WRLC Website ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Distressed Property Research Tool — Cuyahoga County &nbsp;|&nbsp; Data from public sources &nbsp;|&nbsp; Built with <a href="https://claude.ai" target="_blank">Claude AI</a></p>
+  <p style="margin-top:6px;font-size:11px;">For informational purposes only. Verify all data with official county and municipal records before making investment decisions.</p>
+</footer>
+
+<script>
+  function showTab(id, el) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    el.classList.add('active');
+  }
+
+  function filterCards(type, el) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.card[data-types]').forEach(card => {
+      card.style.display = (type === 'all' || card.dataset.types.includes(type)) ? '' : 'none';
+    });
+  }
+
+  function copyPrompt(el, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const arrow = el.querySelector('.prompt-arrow');
+      const orig = arrow.textContent;
+      arrow.textContent = '✓';
+      arrow.style.color = 'var(--grn)';
+      setTimeout(() => { arrow.textContent = orig; arrow.style.color = ''; }, 1800);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+    });
+  }
+</script>
+</body>
+</html>
